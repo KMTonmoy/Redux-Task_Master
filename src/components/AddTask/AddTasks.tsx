@@ -9,7 +9,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from 'react';
-
 import {
     Select,
     SelectContent,
@@ -28,16 +27,21 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { useDispatch } from "react-redux";
+import { addTask } from "@/redux/features/task/taskSlice";
 
 const AddTasks = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [date, setDate] = useState(null);
+    const [date, setDate] = useState<Date | null>(null);
     const form = useForm();
+    const dispatch = useDispatch();
 
     const onsubmit = (data) => {
-        console.log(data);
+        dispatch(addTask(data));
         toast.success("Task Added Successfully");
         setIsModalOpen(false);
+        form.reset();
+        setDate(null);
     };
 
     return (
@@ -64,7 +68,7 @@ const AddTasks = () => {
                                     <FormItem>
                                         <FormLabel>Task Title</FormLabel>
                                         <FormControl>
-                                            <Input {...field} placeholder="Task Title" value={field.value || ""} />
+                                            <Input required {...field} placeholder="Task Title" value={field.value || ""} />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -105,7 +109,7 @@ const AddTasks = () => {
                                     <FormItem>
                                         <FormLabel>Task Description</FormLabel>
                                         <FormControl>
-                                            <Textarea {...field} placeholder="Task Description" value={field.value || ""} />
+                                            <Textarea required {...field} placeholder="Task Description" value={field.value || ""} />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -130,6 +134,7 @@ const AddTasks = () => {
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
                                                     <Calendar
+                                                        required
                                                         mode="single"
                                                         selected={date}
                                                         onSelect={(selectedDate) => {

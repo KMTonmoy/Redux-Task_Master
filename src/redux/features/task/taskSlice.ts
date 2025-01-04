@@ -1,53 +1,40 @@
 import { RootState } from "@/redux/store";
 import { ITask } from "@/types/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 interface InitialState {
-    tasks: [ITask];
-    filter: "all" | "high" | "medium" | "low";
+    tasks: ITask[];
+    filter: "all" | "High" | "Medium" | "Low";
 }
-
-
 
 const initialState: InitialState = {
-    tasks: [
-        {
-            id: 1,
-            title: "Task 1",
-            description: "This is a task description",
-            dueDate: '2025-11',
-            isComplete: true,
-            priority: "High",
-        },
-        {
-            id: 2,
-            title: "Task 2",
-            description: "This is a task description",
-            dueDate: '2025-11',
-            isComplete: false,
-            priority: "Medium",
-        },
-        {
-            id: 3,
-            title: "Task 3",
-            description: "This is a task description",
-            dueDate: '2025-11',
-            isComplete: false,
-            priority: "Low",
-        },
+    tasks: [],
+    filter: "all",
+};
 
-    ],
-    filter: "all"
-}
 const todoSlice = createSlice({
-    name: "task",
+    name: "todo",
     initialState,
     reducers: {
+        addTask: (state, action: PayloadAction<ITask>) => {
+            const id = uuidv4();
+            const taskData = {
+                ...action.payload,
+                id,
+                isComplete: false,
+            };
 
+            state.tasks.push(taskData);
+        },
+        setFilter: (state, action: PayloadAction<"all" | "High" | "Medium" | "Low">) => {
+            state.filter = action.payload;
+        },
     },
-})
+});
 
 export const selectFilter = (state: RootState) => state.todo.filter;
 export const selectTasks = (state: RootState) => state.todo.tasks;
 
-export default todoSlice.reducer;    
+export const { addTask, setFilter } = todoSlice.actions;
+export default todoSlice.reducer;
