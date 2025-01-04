@@ -18,7 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
@@ -29,6 +29,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { addTask } from "@/redux/features/task/taskSlice";
+import { ITask } from "@/types/types";
 
 const AddTasks = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,8 +37,8 @@ const AddTasks = () => {
     const form = useForm();
     const dispatch = useDispatch();
 
-    const onsubmit = (data) => {
-        dispatch(addTask(data));
+    const onsubmit: SubmitHandler<FieldValues> = (data) => {
+        dispatch(addTask(data as ITask));
         toast.success("Task Added Successfully");
         setIsModalOpen(false);
         form.reset();
@@ -136,7 +137,6 @@ const AddTasks = () => {
                                                     <Calendar
                                                         required
                                                         mode="single"
-                                                        selected={date}
                                                         onSelect={(selectedDate) => {
                                                             setDate(selectedDate);
                                                             field.onChange(selectedDate);
