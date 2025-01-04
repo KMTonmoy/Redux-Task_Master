@@ -31,14 +31,14 @@ import { format } from "date-fns";
 
 const AddTasks = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [date, setDate] = useState(null); // State for the selected date
+    const [date, setDate] = useState(null);
     const form = useForm();
 
     const onsubmit = (data) => {
         console.log(data);
         toast.success("Task Added Successfully");
         setIsModalOpen(false);
-    }
+    };
 
     return (
         <div>
@@ -56,7 +56,7 @@ const AddTasks = () => {
                         </DialogDescription>
                     </DialogHeader>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onsubmit)} className='space-y-5'>
+                        <form onSubmit={form.handleSubmit(onsubmit)} className="space-y-5">
                             <FormField
                                 control={form.control}
                                 name="title"
@@ -77,7 +77,10 @@ const AddTasks = () => {
                                     <FormItem>
                                         <FormLabel>Task Priority</FormLabel>
                                         <FormControl>
-                                            <Select {...field}>
+                                            <Select
+                                                onValueChange={(value) => field.onChange(value)}
+                                                defaultValue={field.value}
+                                            >
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Select Task Priority" />
                                                 </SelectTrigger>
@@ -108,7 +111,6 @@ const AddTasks = () => {
                                 )}
                             />
 
-                            {/* Date Picker */}
                             <FormField
                                 control={form.control}
                                 name="dueDate"
@@ -119,7 +121,7 @@ const AddTasks = () => {
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button
-                                                        variant={"outline"}
+                                                        variant="outline"
                                                         className="w-full justify-start text-left font-normal"
                                                     >
                                                         <CalendarIcon />
@@ -132,7 +134,7 @@ const AddTasks = () => {
                                                         selected={date}
                                                         onSelect={(selectedDate) => {
                                                             setDate(selectedDate);
-                                                            field.onChange(selectedDate); // Update the form with the selected date
+                                                            field.onChange(selectedDate);
                                                         }}
                                                         initialFocus
                                                     />
@@ -143,8 +145,8 @@ const AddTasks = () => {
                                 )}
                             />
 
-                            <DialogFooter className='mt-5'>
-                                <Button type='submit'>
+                            <DialogFooter className="mt-5">
+                                <Button type="submit">
                                     Save Task
                                 </Button>
                             </DialogFooter>
