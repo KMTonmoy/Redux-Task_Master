@@ -13,7 +13,7 @@ interface IProps {
 
 const TaskCard = ({ todo }: IProps) => {
     const dispatch = useAppDispatch();
-    const { title, description, dueDate, isComplete, priority, id } = todo;
+    const { title, description, dueDate, isComplete, priority, id, assignto } = todo;
 
     const formattedDueDate = new Date(dueDate).toLocaleDateString();
 
@@ -38,6 +38,7 @@ const TaskCard = ({ todo }: IProps) => {
                     />
                 </div>
             </div>
+            <p className="mt-5">Assign To - {assignto}</p>
             <p className="mt-5">{description}</p>
             <p className="mt-5">{formattedDueDate}</p>
         </div>

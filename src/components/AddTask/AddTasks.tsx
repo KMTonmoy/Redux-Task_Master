@@ -30,6 +30,8 @@ import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { addTask } from "@/redux/features/task/taskSlice";
 import { ITask } from "@/types/types";
+import { useAppSelector } from "@/redux/hooks";
+import { selectUsers } from "@/redux/user/userSlice";
 
 const AddTasks = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,6 +46,8 @@ const AddTasks = () => {
         form.reset();
         setDate(null);
     };
+
+    const users = useAppSelector(selectUsers);
 
     return (
         <div>
@@ -95,6 +99,36 @@ const AddTasks = () => {
                                                         <SelectItem value="High">High</SelectItem>
                                                         <SelectItem value="Medium">Medium</SelectItem>
                                                         <SelectItem value="Low">Low</SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="assignto"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Assign To</FormLabel>
+                                        <FormControl>
+                                            <Select
+                                                onValueChange={(value) => field.onChange(value)}
+                                                defaultValue={field.value}
+                                            >
+                                                <SelectTrigger className="w-full">
+                                                    <SelectValue placeholder="Select User" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectLabel>Users</SelectLabel>
+                                                        {users.map((user) => (
+                                                            <SelectItem key={user.id} value={user.name}>
+                                                                {user.name}
+                                                            </SelectItem>
+                                                        ))}
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
