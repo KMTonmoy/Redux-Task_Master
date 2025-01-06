@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { addUser } from "@/redux/features/user/userSlice";
+import { addUser } from "@/redux/user/userSlice";
 
 const AddUser = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,7 +52,6 @@ const AddUser = () => {
                     </DialogHeader>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                            {/* User Name */}
                             <FormField
                                 control={form.control}
                                 name="name"
@@ -65,8 +64,6 @@ const AddUser = () => {
                                     </FormItem>
                                 )}
                             />
-
-                            {/* User Email */}
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -79,8 +76,6 @@ const AddUser = () => {
                                     </FormItem>
                                 )}
                             />
-
-                            {/* User Role */}
                             <FormField
                                 control={form.control}
                                 name="role"
@@ -93,8 +88,6 @@ const AddUser = () => {
                                     </FormItem>
                                 )}
                             />
-
-                            {/* Registration Date */}
                             <FormField
                                 control={form.control}
                                 name="registrationDate"
@@ -117,8 +110,8 @@ const AddUser = () => {
                                                         required
                                                         mode="single"
                                                         onSelect={(selectedDate) => {
-                                                            setRegistrationDate(selectedDate);
-                                                            field.onChange(selectedDate);
+                                                            setRegistrationDate(selectedDate || null);
+                                                            field.onChange(selectedDate || null);
                                                         }}
                                                         initialFocus
                                                     />
@@ -128,7 +121,6 @@ const AddUser = () => {
                                     </FormItem>
                                 )}
                             />
-
                             <DialogFooter className="mt-5">
                                 <Button type="submit">Save User</Button>
                             </DialogFooter>

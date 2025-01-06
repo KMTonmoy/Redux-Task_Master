@@ -18,8 +18,8 @@ const createTask = (taskData: DraftTask): ITask => {
     return {
         id: nanoid(),
         isComplete: false,
-        assignto: taskData.assignto || null,
         ...taskData,
+        assignto: taskData.assignto || null,
     };
 };
 
