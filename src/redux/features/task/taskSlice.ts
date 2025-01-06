@@ -12,10 +12,15 @@ const initialState: InitialState = {
     filter: "all",
 };
 
-type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority">;
+type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority" | "assignto">;
 
 const createTask = (taskData: DraftTask): ITask => {
-    return { id: nanoid(), isComplete: false, ...taskData };
+    return {
+        id: nanoid(),
+        isComplete: false,
+        assignto: taskData.assignto || null,
+        ...taskData,
+    };
 };
 
 const todoSlice = createSlice({
@@ -29,28 +34,20 @@ const todoSlice = createSlice({
         setFilter: (state, action: PayloadAction<"all" | "High" | "Medium" | "Low">) => {
             state.filter = action.payload;
         },
-
-        toggleComplete: (state, action: PayloadAction<number>) => {
+        toggleComplete: (state, action: PayloadAction<string>) => {
             const task = state.tasks.find((task) => task.id === action.payload);
             if (task) {
                 task.isComplete = !task.isComplete;
             }
         },
-
-
-        deleteTask: (state, action: PayloadAction<number>) => {
-            state.tasks = state.tasks.filter(task => task.id !== action.payload)
+        deleteTask: (state, action: PayloadAction<string>) => {
+            state.tasks = state.tasks.filter((task) => task.id !== action.payload);
         },
-
-        updateFillter: (state, action: PayloadAction<"all" | "High" | "Medium" | "Low">) => {
-            state.filter = action.payload;
-        },
-
     },
 });
 
 export const selectFilter = (state: RootState) => state.todo.filter;
 export const selectTasks = (state: RootState) => state.todo.tasks;
 
-export const { addTask, setFilter, toggleComplete, deleteTask, updateFillter } = todoSlice.actions;
+export const { addTask, setFilter, toggleComplete, deleteTask } = todoSlice.actions;
 export default todoSlice.reducer;

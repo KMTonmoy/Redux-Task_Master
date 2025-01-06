@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,7 +37,11 @@ const TaskCard = ({ todo }: IProps) => {
                     />
                 </div>
             </div>
-            <p className="mt-5">Assign To - {assignto}</p>
+            <p className="mt-5 ">Assign To - {assignto ? (
+                <span>{assignto}</span>
+            ) : (
+                <span>N/A</span>
+            )}</p>
             <p className="mt-5">{description}</p>
             <p className="mt-5">{formattedDueDate}</p>
         </div>
